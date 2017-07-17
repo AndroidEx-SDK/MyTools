@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">安卓工具</string>
+    <string name="app_name">AndroidEx</string>
     <drawable name="upbackground">#3F51B5</drawable>
     <drawable name="downbackground">#5677FC</drawable>
     <drawable name="btnbackground">#00a0e9</drawable>
