@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">安卓工具</string>
+    <drawable name="upbackground">#3F51B5</drawable>
+    <drawable name="downbackground">#5677FC</drawable>
+    <drawable name="btnbackground">#00a0e9</drawable>
+
+    <string name="reset">重启</string>
+    <string name="shutdown">关机</string>
+    <string name="upgrade">升级</string>
+    <string name="otg2usb">OTG/USB切换</string>
+    <string name="device2usb">切换为USB</string>
+    <string name="usb2device">切换为ADB</string>
+</resources>
