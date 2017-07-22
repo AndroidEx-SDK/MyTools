@@ -3,6 +3,7 @@
 #include <unistd.h>     /*Unix标准函数定义*/
 #include <fcntl.h>      /*文件控制定义*/
 #include <jni.h>
+#include <android/log.h>
 
 #define TAG "MainActivity"
 
@@ -93,20 +94,21 @@ int HexDecode(const char *pSrcData, int nSrcLen, unsigned char *pbDest, int *pnD
 }
 
 JNIEXPORT jint JNICALL
-Java_com_androidex_mytools_MainActivity_main(JNIEnv *env, jobject obj,
+Java_com_androidex_mytools_MainActivity_writeCmd(JNIEnv *env, jobject obj,
                                                  jstring argv) {
     char *arr[3];
     arr[0] = "writecmd";
     arr[1] = "/dev/uart2g";
     arr[2] = (char *) (*env)->GetStringUTFChars(env, argv, 0);
-    return main(3, arr);
+    return writeCmd(3, arr);
 }
 
 /**
  * writecmd /dev/uart2g FB00030000FE
  * writecmd /dev/uart2g FB00040000FE
  */
-int main(int argc, char *argv[]) {
+int writeCmd(int argc, char *argv[]) {
+    LOGD("argv[0]=%s, argv[1]=%s, argv[2]=%s", argv[0], argv[1], argv[2]);
     if (argc < 3) {
         //printf("参数不够，使用方法：\r\n writecmd dev hexcmd\r\n");
         printf("how to use:\r\n writecmd dev hexcmd\r\n");
@@ -127,8 +129,7 @@ int main(int argc, char *argv[]) {
             } else {
                 if (write(fd, deccmd, dlen) != dlen) {
                     printf("write error :%s\n", strerror(errno));
-                }
-                else {
+                } else {
                     printf("write ok.\n");
                 }
                 close(fd);

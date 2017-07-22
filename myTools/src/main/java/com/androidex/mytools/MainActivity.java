@@ -23,14 +23,8 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
 
     private LinearLayout mainView;
     private Button otg_usb, reboot_to, reboot, shutdown;
-    private boolean mFullScreenDisabled = false;
-    public static final int SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED = 8192;
-    //public static final String USB_OTG = "writecmd /dev/uart2g FB00030000FE";
-    //public static final String USB_HOST = "writecmd /dev/uart2g FB00040000FE";
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
-    public String[] CMD_USB_OTG = {"writecmd", "/dev/uart2g", "FB00030000FE"};
-    public String[] CMD_USB_HOST = {"writecmd", "/dev/uart2g", "FB00040000FE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +78,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
 //                        Intent intent = new Intent();
 //                        intent.setAction("com.androidex.action.OTGHOST");
 //                        sendBroadcast(intent);
-                          int main = main(USB_HOST);
-                        //int main = main(CMD_USB_HOST);
-                        Log.i("MainActivity", "HOST模式  main ==>:" + main);
+                        int main = writeCmd(USB_HOST);
                         if (main == 0) {
                             Toast.makeText(MainActivity.this, "USB为HOST模式成功", Toast.LENGTH_SHORT).show();
                         } else {
@@ -94,20 +86,17 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                         }
                     }
                 });
-                builder.setNegativeButton("DEVICE模式", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("OTG模式", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Intent intent = new Intent();
 //                        intent.setAction("com.androidex.action.OTGDEVICE");
 //                        sendBroadcast(intent);
-                        int main = main(USB_OTG);
-                        //int main = main(CMD_USB_OTG);
-                        Log.i("MainActivity", "DEVICE模式  main ==>:" + main);
-
+                        int main = writeCmd(USB_OTG);
                         if (main == 0) {
-                            Toast.makeText(MainActivity.this, "USB为DEVICE模式成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "USB为OTG模式成功", Toast.LENGTH_SHORT).show();
                         } else
-                            Toast.makeText(MainActivity.this, "USB为DEVICE模式失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "USB为OTG模式失败", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.create().show();
@@ -175,7 +164,6 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         }
     }
 
-    // public native String helloC();
-    public native int main(String cmd);
+    public native int writeCmd(String cmd);
 }
 
