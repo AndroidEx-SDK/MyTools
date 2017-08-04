@@ -53,19 +53,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     public void EnterFullScreen() {
         sendBroadcast(new Intent("com.android.action.hide_navigationbar"));
     }
-
-//    protected void setFullScreen(boolean value) {
-//        if (this.mainView != null) {
-//            if (value) {
-//                this.mainView.setSystemUiVisibility(13063);
-//                this.mFullScreenDisabled = false;
-//            } else {
-//                this.mainView.setSystemUiVisibility(1536);
-//                this.mFullScreenDisabled = true;
-//            }
-//        }
-//    }
-
+    
     /**
      * writecmd /dev/uart2g FB00030000FE
      * writecmd /dev/uart2g FB00040000FE
