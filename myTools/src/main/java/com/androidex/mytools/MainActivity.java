@@ -31,9 +31,10 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainView = (LinearLayout) findViewById(R.id.activity_main);
-        EnterFullScreen();
-        setFullScreen(true);
-        mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);
+        setFullScreenView(mainView);
+        //EnterFullScreen();//隐藏底部
+        setFullScreen(true);//kk34全屏
+        //mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);//禁止下拉
 
         // 控件实例化
         otg_usb = (Button) findViewById(R.id.otg_usb);
@@ -46,22 +47,13 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         shutdown.setOnClickListener(this);
     }
 
+    /**
+     *隐藏底部导航栏
+     */
     public void EnterFullScreen() {
         sendBroadcast(new Intent("com.android.action.hide_navigationbar"));
     }
-
-    protected void setFullScreen(boolean value) {
-        if (this.mainView != null) {
-            if (value) {
-                this.mainView.setSystemUiVisibility(13063);
-                this.mFullScreenDisabled = false;
-            } else {
-                this.mainView.setSystemUiVisibility(1536);
-                this.mFullScreenDisabled = true;
-            }
-        }
-    }
-
+    
     /**
      * writecmd /dev/uart2g FB00030000FE
      * writecmd /dev/uart2g FB00040000FE
@@ -75,28 +67,28 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                 builder.setPositiveButton("HOST模式", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent();
-//                        intent.setAction("com.androidex.action.OTGHOST");
-//                        sendBroadcast(intent);
-                        int main = writeCmd(USB_HOST);
-                        if (main == 0) {
-                            Toast.makeText(MainActivity.this, "USB为HOST模式成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity.this, "USB为HOST模式失败", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent intent = new Intent();
+                        intent.setAction("com.androidex.action.OTGHOST");
+                        sendBroadcast(intent);
+//                        int main = writeCmd(USB_HOST);
+//                        if (main == 0) {
+//                            Toast.makeText(MainActivity.this, "USB为HOST模式成功", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(MainActivity.this, "USB为HOST模式失败", Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 });
                 builder.setNegativeButton("OTG模式", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent();
-//                        intent.setAction("com.androidex.action.OTGDEVICE");
-//                        sendBroadcast(intent);
-                        int main = writeCmd(USB_OTG);
-                        if (main == 0) {
-                            Toast.makeText(MainActivity.this, "USB为OTG模式成功", Toast.LENGTH_SHORT).show();
-                        } else
-                            Toast.makeText(MainActivity.this, "USB为OTG模式失败", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setAction("com.androidex.action.OTGDEVICE");
+                        sendBroadcast(intent);
+//                        int main = writeCmd(USB_OTG);
+//                        if (main == 0) {
+//                            Toast.makeText(MainActivity.this, "USB为OTG模式成功", Toast.LENGTH_SHORT).show();
+//                        } else
+//                            Toast.makeText(MainActivity.this, "USB为OTG模式失败", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.create().show();
