@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.androidex.mytools">
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        android:protectionLevel="signatureOrSystem"/>
+    <uses-permission
+        android:name="android.permission.SHUTDOWN"
+        android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
         android:allowBackup="true"
@@ -17,5 +27,21 @@
             </intent-filter>
         </activity>
     </application>
+    <!--监听开机自启动-->
+    <receiver android:name=".BootBroadcastReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            <category android:name="android.intent.category.HOME"/>
+        </intent-filter>
+        <!--如果应用装到SD卡后需要加入如下设置开机广播才可以收到-->
+        <intent-filter>
+            <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+            <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
+
+            <data android:scheme="file"></data>
+            <action android:name="android.intent.action.BOOT_COMPLETED"/>
+
+        </intent-filter>
+    </receiver>
 
 </manifest>
