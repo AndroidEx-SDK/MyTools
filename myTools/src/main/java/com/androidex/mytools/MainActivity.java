@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.androidex.common.AndroidExActivityBase;
-import com.androidex.logger.Log;
 
 public class MainActivity extends AndroidExActivityBase implements View.OnClickListener {
     static {
@@ -22,7 +21,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     }
 
     private LinearLayout mainView;
-    private Button otg_usb, reboot_to, reboot, shutdown;
+    private Button otg_usb, btn_Ethernet,reboot_to, reboot, shutdown;
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
 
@@ -38,6 +37,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
 
         // 控件实例化
         otg_usb = (Button) findViewById(R.id.otg_usb);
+        btn_Ethernet = (Button) findViewById(R.id.btn_Ethernet);
         reboot_to = (Button) findViewById(R.id.reboot_to);
         reboot = (Button) findViewById(R.id.reboot);
         shutdown = (Button) findViewById(R.id.shutdown);
@@ -45,6 +45,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         reboot_to.setOnClickListener(this);
         reboot.setOnClickListener(this);
         shutdown.setOnClickListener(this);
+        btn_Ethernet.setOnClickListener(this);
     }
 
     /**
@@ -152,6 +153,29 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                     }
                 });
                 builder3.create().show();
+                break;
+            case R.id.btn_Ethernet://以太网开关
+                AlertDialog.Builder builder4 = new AlertDialog.Builder(MainActivity.this);
+                builder4.setTitle("开启和关闭以太网");
+                builder4.setPositiveButton("开启", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        hwservice.EthernetStart();
+                        Toast.makeText(MainActivity.this, "开启以太网...", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder4.setNegativeButton("关闭", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        hwservice.EthernetStop();
+                        Toast.makeText(MainActivity.this, "关闭以太网...", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                builder4.create().show();
+                break;
+            default:
                 break;
         }
     }

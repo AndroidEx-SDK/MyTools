@@ -21,7 +21,16 @@
         android:padding="10dp"
         android:text="@string/otg2usb"
         android:textSize="18dp"/>
-
+    <Button
+        android:id="@+id/btn_Ethernet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="left|center"
+        android:onClick="onClick"
+        android:padding="10dp"
+        android:text="@string/ethernet"
+        android:textSize="18dp"/>
     <Button
         android:id="@+id/reboot_to"
         android:layout_width="match_parent"
