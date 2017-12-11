@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,7 +22,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     }
 
     private LinearLayout mainView;
-    private Button otg_usb, btn_Ethernet,reboot_to, reboot, shutdown;
+    private Button otg_usb, btn_Ethernet, reboot_to, reboot, shutdown, getUUID;
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
 
@@ -41,15 +42,23 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         reboot_to = (Button) findViewById(R.id.reboot_to);
         reboot = (Button) findViewById(R.id.reboot);
         shutdown = (Button) findViewById(R.id.shutdown);
+        getUUID = (Button) findViewById(R.id.getUUID);
         otg_usb.setOnClickListener(this);
         reboot_to.setOnClickListener(this);
         reboot.setOnClickListener(this);
         shutdown.setOnClickListener(this);
         btn_Ethernet.setOnClickListener(this);
+        getUUID.setOnClickListener(this);
+
+        String chipIDHex = ProcCpuInfo.getChipIDHex();
+        Log.e(TAG, "chipIDHex===" + chipIDHex);
+        String chipID = ProcCpuInfo.getChipID();
+        Log.e(TAG, "chipID===" + chipID);
+
     }
 
     /**
-     *隐藏底部导航栏
+     * 隐藏底部导航栏
      */
     public void EnterFullScreen() {
         sendBroadcast(new Intent("com.android.action.hide_navigationbar"));
@@ -174,6 +183,10 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                     }
                 });
                 builder4.create().show();
+                break;
+            case R.id.getUUID:
+                Log.e(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
+                Log.e(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
                 break;
             default:
                 break;

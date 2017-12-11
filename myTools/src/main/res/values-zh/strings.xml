@@ -6,6 +6,7 @@
 
     <string name="reset">重启</string>
     <string name="shutdown">关机</string>
+    <string name="getuuid">获取本机的UUID</string>
     <string name="upgrade">升级</string>
     <string name="otg2usb">OTG/USB切换</string>
     <string name="ethernet">以太网开关</string>

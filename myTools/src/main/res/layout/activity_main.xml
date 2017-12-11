@@ -66,4 +66,15 @@
         android:padding="10dp"
         android:text="@string/shutdown"
         android:textSize="18dp"/>
+    <Button
+        android:id="@+id/getUUID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/white"
+        android:gravity="left|center"
+        android:onClick="onClick"
+        android:padding="10dp"
+        android:text="@string/getuuid"
+        android:textSize="18dp"/>
 </LinearLayout>

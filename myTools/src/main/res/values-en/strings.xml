@@ -7,6 +7,7 @@
     <string name="reset">重启</string>
     <string name="shutdown">关机</string>
     <string name="upgrade">升级</string>
+    <string name="getuuid">获取本机的UUID</string>
     <string name="otg2usb">OTG/USB切换</string>
     <string name="device2usb">切换为USB</string>
     <string name="usb2device">切换为ADB</string>
