@@ -12,4 +12,5 @@
     <string name="ethernet">以太网开关</string>
     <string name="device2usb">切换为USB</string>
     <string name="usb2device">切换为ADB</string>
+    <string name="mute_install">静默安装</string>
 </resources>

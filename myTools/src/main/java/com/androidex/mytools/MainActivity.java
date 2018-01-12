@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.androidex.common.AndroidExActivityBase;
+
+import java.io.File;
 
 public class MainActivity extends AndroidExActivityBase implements View.OnClickListener {
     static {
@@ -187,6 +190,12 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
             case R.id.getUUID:
                 Log.e(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
                 Log.e(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
+                break;
+            case R.id.muteinstall: //静默安装
+                File f = new File(Environment.getExternalStorageDirectory().getPath()+"/wnys.apk"); //请保证这个路径有这个app文件
+                if(f.exists()){
+                    SilentInstall.install(f.toString());
+                }
                 break;
             default:
                 break;
