@@ -191,11 +191,19 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                 Log.e(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
                 Log.e(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
                 break;
-            case R.id.muteinstall: //静默安装
-                File f = new File(Environment.getExternalStorageDirectory().getPath()+"/wnys.apk"); //请保证这个路径有这个app文件
-                if(f.exists()){
-                    SilentInstall.install(f.toString());
+            case R.id.muteinstall: { //静默安装
+                File f = new File(Environment.getExternalStorageDirectory().getPath() + "/wnys.apk"); //请保证这个路径有这个app文件
+                if (f.exists()) {
+                    String command = "pm install -r " + f.toString() + "\n";
+                    SilentInstall.executeCmd(command);
                 }
+            }
+                break;
+            case R.id.uninstall: { //卸载程序
+                String unInstallpackage = "com.snda.wifilocating"; //需要卸载程序的包名，我卸载了WIFI万能钥匙
+                String command = "pm uninstall " + unInstallpackage + "\n";
+                SilentInstall.executeCmd(command);
+            }
                 break;
             default:
                 break;

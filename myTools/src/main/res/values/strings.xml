@@ -13,4 +13,5 @@
     <string name="device2usb">切换为USB</string>
     <string name="usb2device">切换为ADB</string>
     <string name="mute_install">静默安装</string>
+    <string name="un_install">卸载应用</string>
 </resources>

@@ -35,3 +35,20 @@
 
 ##adb环境配置后仍旧无法正常连接设备：
     参考：https://jingyan.baidu.com/article/ce09321b5b76642bff858f31.html?qq-pf-to=pcqq.c2c
+
+##监听前台应用
+    1、第一次运行的时候需要启动一次服务，才可以使应用开机监听广播；
+    2、使用广播来设置所需要监听的程序；
+
+    如：我需要监听计算器程序
+    在ListenService开启的状态下使用adb 命令：
+        adb shell am broadcast -a com.androidex.listen.update.action --es androidex_listen_package "com.android.calculator2" --es androidex_listen_activity "com.android.calculator2.Calculator"
+
+    如：我需要移除对计算器程序的监听
+    在ListenService开启的状态下使用adb 命令：
+        adb shell am broadcast -a com.androidex.listen.update.action --es androidex_listen_package "com.android.calculator2"
+
+    3、对应用程序进行签名；
+
+##卸载应用
+    代码见MainActivity 202-207行

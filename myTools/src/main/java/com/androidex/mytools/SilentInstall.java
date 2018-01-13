@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
  */
 
 public class SilentInstall {
-    public static boolean install(String apkPath) {
+    public static boolean executeCmd(String command) {
         boolean result = false;
         DataOutputStream dataOutputStream = null;
         BufferedReader errorStream = null;
@@ -21,8 +21,6 @@ public class SilentInstall {
             // 申请su权限
             Process process = Runtime.getRuntime().exec("su");
             dataOutputStream = new DataOutputStream(process.getOutputStream());
-            // 执行pm install命令
-            String command = "pm install -r " + apkPath + "\n";
             dataOutputStream.write(command.getBytes(Charset.forName("utf-8")));
             dataOutputStream.flush();
             dataOutputStream.writeBytes("exit\n");

@@ -95,6 +95,18 @@
                 android:padding="10dp"
                 android:text="@string/mute_install"
                 android:textSize="18dp"/>
+
+            <Button
+                android:id="@+id/uninstall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/white"
+                android:gravity="left|center"
+                android:onClick="onClick"
+                android:padding="10dp"
+                android:text="@string/un_install"
+                android:textSize="18dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
