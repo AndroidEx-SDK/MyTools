@@ -35,8 +35,8 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         setContentView(R.layout.activity_main);
         mainView = (LinearLayout) findViewById(R.id.activity_main);
         //setFullScreenView(mainView);
-        //EnterFullScreen();//隐藏底部
-        //setFullScreen(true);//kk34全屏
+        EnterFullScreen();//隐藏底部
+        setFullScreen(true);//kk34全屏
         mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);//禁止下拉
 
         // 控件实例化
