@@ -52,3 +52,8 @@
 
 ##卸载应用
     代码见MainActivity 202-207行
+
+
+##以太网控制
+     增加<uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>权限
+     代码键MainActivity
