@@ -25,13 +25,14 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     }
 
     private LinearLayout mainView;
-    private Button otg_usb, btn_Ethernet, reboot_to, reboot, shutdown, getUUID;
+    private Button otg_usb, btn_Ethernet, reboot_to, reboot, shutdown, getUUID, finish;
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EnterFullScreen();//隐藏底部
         setContentView(R.layout.activity_main);
         mainView = (LinearLayout) findViewById(R.id.activity_main);
         //setFullScreenView(mainView);
@@ -46,12 +47,14 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         reboot = (Button) findViewById(R.id.reboot);
         shutdown = (Button) findViewById(R.id.shutdown);
         getUUID = (Button) findViewById(R.id.getUUID);
+        finish = (Button) findViewById(R.id.getUUID);
         otg_usb.setOnClickListener(this);
         reboot_to.setOnClickListener(this);
         reboot.setOnClickListener(this);
         shutdown.setOnClickListener(this);
         btn_Ethernet.setOnClickListener(this);
         getUUID.setOnClickListener(this);
+        finish.setOnClickListener(this);
 
         String chipIDHex = ProcCpuInfo.getChipIDHex();
         Log.e(TAG, "chipIDHex===" + chipIDHex);
@@ -198,12 +201,15 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                     SilentInstall.executeCmd(command);
                 }
             }
-                break;
+            break;
             case R.id.uninstall: { //卸载程序
                 String unInstallpackage = "com.snda.wifilocating"; //需要卸载程序的包名，我卸载了WIFI万能钥匙
                 String command = "pm uninstall " + unInstallpackage + "\n";
                 SilentInstall.executeCmd(command);
             }
+            break;
+            case R.id.finish:
+                finish();
                 break;
             default:
                 break;
