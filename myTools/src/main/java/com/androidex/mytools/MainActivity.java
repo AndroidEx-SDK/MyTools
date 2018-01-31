@@ -1,19 +1,26 @@
 package com.androidex.mytools;
 
+import android.net.EthernetManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidex.common.AndroidExActivityBase;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class MainActivity extends AndroidExActivityBase implements View.OnClickListener {
     static {
@@ -29,6 +36,11 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
 
+    private TextView ethernetText;
+    private Switch ethernetSwitch;
+    private EthernetManager mEthManager;
+    private Method ethernetStart,ethernetStop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +51,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         EnterFullScreen();//隐藏底部
         setFullScreen(true);//kk34全屏
         mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);//禁止下拉
-
+        mEthManager = (EthernetManager) getSystemService("ethernet");
         // 控件实例化
         otg_usb = (Button) findViewById(R.id.otg_usb);
         btn_Ethernet = (Button) findViewById(R.id.btn_Ethernet);
@@ -56,12 +68,83 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         getUUID.setOnClickListener(this);
         finish.setOnClickListener(this);
 
+        //以太网控制
+        initMethod();
+        initEthernet();
+
         String chipIDHex = ProcCpuInfo.getChipIDHex();
         Log.e(TAG, "chipIDHex===" + chipIDHex);
         String chipID = ProcCpuInfo.getChipID();
         Log.e(TAG, "chipID===" + chipID);
 
+
+
     }
+
+    private void initEthernet(){
+        ethernetText = (TextView) findViewById(R.id.ethernet_text);
+        ethernetSwitch = (Switch) findViewById(R.id.ethernet_switch);
+        int state = Settings.Global.getInt(this.getContentResolver(),"ethernet_on",0); //0 1 2
+        if (state == 1){
+            //以太网关闭
+            ethernetSwitch.setChecked(false);
+            ethernetText.setText("以太网：关");
+        }else if(state == 2){
+            //以太网打开
+            ethernetText.setText("以太网：开");
+            ethernetSwitch.setChecked(true);
+        }
+        ethernetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    //if(mEthDialog != null)
+                    //mEthDialog.show();
+                } else {
+                    if(mEthManager != null && ethernetStop!=null)
+                        try {
+                            ethernetStop.invoke(mEthManager);
+                            ethernetText.setText("以太网：关");
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                }
+                Settings.Global.putInt(MainActivity.this.getContentResolver(), "ethernet_on",b ? 2 : 1); //2是打开 1是关闭
+                if(b)
+                    if(mEthManager != null && ethernetStart!=null)
+                        try {
+                            ethernetStart.invoke(mEthManager);
+                            ethernetText.setText("以太网：开");
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+            }
+        });
+    }
+
+    private void initMethod(){
+        try {
+            ethernetStart = mEthManager.getClass().getMethod("start",getParameterTypes(mEthManager.getClass(),"start"));
+            ethernetStop = mEthManager.getClass().getMethod("stop",getParameterTypes(mEthManager.getClass(),"stop"));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Class[] getParameterTypes(Class c,String methodName){
+        Method ms[] = c.getMethods();
+        for (int i = 0; i < ms.length; i++) {
+            if(ms[i].getName().equals(methodName)){
+                return  ms[i].getParameterTypes();
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 隐藏底部导航栏

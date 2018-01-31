@@ -4,6 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "25.0.2"
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.androidex.mytools"
         minSdkVersion 17
         targetSdkVersion 22
