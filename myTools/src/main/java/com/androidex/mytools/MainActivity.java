@@ -76,9 +76,6 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         Log.e(TAG, "chipIDHex===" + chipIDHex);
         String chipID = ProcCpuInfo.getChipID();
         Log.e(TAG, "chipID===" + chipID);
-
-
-
     }
 
     private void initEthernet(){
@@ -169,6 +166,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                         Intent intent = new Intent();
                         intent.setAction("com.androidex.action.OTGHOST");
                         sendBroadcast(intent);
+                        Toast.makeText(MainActivity.this, "切换HOST模式成功", Toast.LENGTH_SHORT).show();
 //                        int main = writeCmd(USB_HOST);
 //                        if (main == 0) {
 //                            Toast.makeText(MainActivity.this, "USB为HOST模式成功", Toast.LENGTH_SHORT).show();
@@ -183,6 +181,7 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                         Intent intent = new Intent();
                         intent.setAction("com.androidex.action.OTGDEVICE");
                         sendBroadcast(intent);
+                        Toast.makeText(MainActivity.this, "切换OTG模式成功", Toast.LENGTH_SHORT).show();
 //                        int main = writeCmd(USB_OTG);
 //                        if (main == 0) {
 //                            Toast.makeText(MainActivity.this, "USB为OTG模式成功", Toast.LENGTH_SHORT).show();

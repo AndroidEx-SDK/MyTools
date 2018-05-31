@@ -38,6 +38,7 @@
                 android:background="@android:color/white"
                 android:gravity="left|center"
                 android:onClick="onClick"
+                android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:text="@string/ethernet"
                 android:textSize="18dp" />
@@ -112,7 +113,6 @@
                 android:onClick="onClick"
                 android:padding="10dp"
                 android:text="@string/un_install"
-<<<<<<< HEAD
                 android:textSize="18dp" />
 
             <Button
@@ -126,8 +126,7 @@
                 android:padding="10dp"
                 android:text="@string/finish"
                 android:textSize="18dp" />
-=======
-                android:textSize="18dp"/>
+
             <LinearLayout
                 android:id="@+id/ethernet_layout"
                 android:orientation="vertical"
@@ -142,7 +141,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
->>>>>>> ba6bcb99cde111ff278dbf5aaeea254fbe1fa170
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

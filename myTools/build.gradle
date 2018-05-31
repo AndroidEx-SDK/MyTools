@@ -41,6 +41,9 @@ android {
     tasks.withType(JavaCompile) {
         compileTask -> compileTask.dependsOn(nativeLibsToJar)
     }
+    sourceSets.main {
+        jni.srcDirs = []
+    }
 }
 
 dependencies {
@@ -52,4 +55,5 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile files('libs/classes.jar')
 }
