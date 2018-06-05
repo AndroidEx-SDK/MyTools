@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity implements OnBackCall {
     }
 
     public void open(View v){
-        int result = mDoorLock.openDoor(0xF0, 0); //常开
-        //int result = mDoorLock.openDoor(0xF0, 0x40); //延时自动关门
+        //int result = mDoorLock.openDoor(0xF0, 0); //常开
+         int result = mDoorLock.openDoor(0xF0, 0x40); //延时自动关门
         Log.i("xiao_",result+"    开门");
     }
 
@@ -60,11 +60,19 @@ public class MainActivity extends AppCompatActivity implements OnBackCall {
             if (index < 0 || index > 0xFE) index = 0;
             if (ident < 0 || ident > 0xFE) ident = 0;
             if (delay < 0 || delay > 0xFE) delay = 0;
-            String cmd = String.format("FB%02X2503%02X01%02X00FE", ident, index, delay);
+            String cmd = String.format("FB%02X5003%02X01%02X00FE", ident, index, delay);
+            //echo "FB005003F0010000FE" > dev/ttySV0
+            //FB+Index+CMD+LEN+DATA+CRC+FE
+            //    FB 00 50 03 F0 01 00 00FE
+            //0-->FB 00 25 03 F0 01 00 00FE
+            //0x40 -->
             int r = rkey.native_file_writeHex(rkeyDev, cmd);
-
+            Log.i("xiao_", "cmd = " + cmd);
             if (r > 0) {
                 SoundPoolUtil.getSoundPoolUtil().loadVoice(getBaseContext(), 011111);
+                Log.i("xiao_", " 开门播报");
+            } else {
+                Log.i("xiao_", " r <=0");
             }
             return r > 0 ? 1 : 0;
         }

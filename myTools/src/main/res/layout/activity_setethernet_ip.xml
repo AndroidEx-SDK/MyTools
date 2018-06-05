@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.androidex.mytools.ui.SetEthernetIPActivity"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/dhcp_radio"
+            android:text="DHCP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <RadioButton
+            android:id="@+id/manual_radio"
+            android:text="静态IP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RadioGroup>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="IP：" />
+                <EditText
+                    android:id="@+id/ip_"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="DNS1：" />
+                <EditText
+                    android:id="@+id/dns1_"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="DNS2：" />
+                <EditText
+                    android:id="@+id/dns2_"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="网关：" />
+                <EditText
+                    android:id="@+id/wanguan_"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <Button
+                android:layout_margin="5dp"
+                android:id="@+id/set_"
+                android:text="Set"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:layout_margin="5dp"
+                android:id="@+id/exit_"
+                android:text="Exit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

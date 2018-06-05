@@ -6,10 +6,16 @@
 
     <string name="reset">重启</string>
     <string name="shutdown">关机</string>
-    <string name="getuuid">获取本机的UUID</string>
     <string name="upgrade">升级</string>
+    <string name="getuuid">获取本机的UUID</string>
+    <string name="setEthernetIP">设置以太网静态IP</string>
+    <string name="setWifiIP">设置WIFI静态IP</string>
     <string name="otg2usb">OTG/USB切换</string>
     <string name="ethernet">以太网开关</string>
+    <string name="ethernet_permission">以太网开关(需要系统签名)</string>
     <string name="device2usb">切换为USB</string>
     <string name="usb2device">切换为ADB</string>
+    <string name="mute_install">静默安装(需要系统签名)</string>
+    <string name="un_install">卸载应用</string>
+    <string name="finish">退出应用</string>
 </resources>

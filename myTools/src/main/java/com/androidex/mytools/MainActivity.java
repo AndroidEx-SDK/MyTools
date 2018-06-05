@@ -1,22 +1,27 @@
 package com.androidex.mytools;
 
+import android.annotation.SuppressLint;
 import android.net.EthernetManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidex.common.AndroidExActivityBase;
+import com.androidex.mytools.ui.SetEthernetIPActivity;
+import com.androidex.mytools.utils.ProcCpuInfo;
+import com.androidex.mytools.utils.SilentInstall;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -30,13 +35,11 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
 
         }
     }
-
     private LinearLayout mainView;
-    private Button otg_usb, btn_Ethernet, reboot_to, reboot, shutdown, getUUID, finish;
+    private Button otg_usb, btn_Ethernet, setEthernetIP, setWifiIP, reboot_to, reboot, shutdown, getUUID, finish;
     public static final String USB_OTG = "FB00030000FE";
     public static final String USB_HOST = "FB00040000FE";
 
-    private TextView ethernetText;
     private Switch ethernetSwitch;
     private EthernetManager mEthManager;
     private Method ethernetStart,ethernetStop;
@@ -44,14 +47,12 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EnterFullScreen();//隐藏底部
+        //EnterFullScreen();//隐藏底部
         setContentView(R.layout.activity_main);
         mainView = (LinearLayout) findViewById(R.id.activity_main);
         //setFullScreenView(mainView);
-        EnterFullScreen();//隐藏底部
-        setFullScreen(true);//kk34全屏
-        mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);//禁止下拉
-        mEthManager = (EthernetManager) getSystemService("ethernet");
+        //setFullScreen(true);//kk34全屏
+        // mainView.setSystemUiVisibility(SYSTEM_UI_FLAG_IMMERSIVE_GESTURE_ISOLATED);//禁止下拉
         // 控件实例化
         otg_usb = (Button) findViewById(R.id.otg_usb);
         btn_Ethernet = (Button) findViewById(R.id.btn_Ethernet);
@@ -59,10 +60,14 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
         reboot = (Button) findViewById(R.id.reboot);
         shutdown = (Button) findViewById(R.id.shutdown);
         getUUID = (Button) findViewById(R.id.getUUID);
-        finish = (Button) findViewById(R.id.getUUID);
+        setEthernetIP = (Button) findViewById(R.id.setEthernetIP);
+        setWifiIP = (Button) findViewById(R.id.setWifiIP);
+        finish = (Button) findViewById(R.id.finish);
         otg_usb.setOnClickListener(this);
         reboot_to.setOnClickListener(this);
         reboot.setOnClickListener(this);
+        setEthernetIP.setOnClickListener(this);
+        setWifiIP.setOnClickListener(this);
         shutdown.setOnClickListener(this);
         btn_Ethernet.setOnClickListener(this);
         getUUID.setOnClickListener(this);
@@ -79,19 +84,17 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
     }
 
     private void initEthernet(){
-        ethernetText = (TextView) findViewById(R.id.ethernet_text);
         ethernetSwitch = (Switch) findViewById(R.id.ethernet_switch);
         int state = Settings.Global.getInt(this.getContentResolver(),"ethernet_on",0); //0 1 2
         if (state == 1){
             //以太网关闭
             ethernetSwitch.setChecked(false);
-            ethernetText.setText("以太网：关");
         }else if(state == 2){
             //以太网打开
-            ethernetText.setText("以太网：开");
             ethernetSwitch.setChecked(true);
         }
         ethernetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b) {
@@ -101,29 +104,35 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                     if(mEthManager != null && ethernetStop!=null)
                         try {
                             ethernetStop.invoke(mEthManager);
-                            ethernetText.setText("以太网：关");
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
                 }
-                Settings.Global.putInt(MainActivity.this.getContentResolver(), "ethernet_on",b ? 2 : 1); //2是打开 1是关闭
-                if(b)
-                    if(mEthManager != null && ethernetStart!=null)
-                        try {
-                            ethernetStart.invoke(mEthManager);
-                            ethernetText.setText("以太网：开");
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
+                try {
+                    Settings.Global.putInt(MainActivity.this.getContentResolver(), "ethernet_on", b ? 2 : 1); //2是打开 1是关闭
+                    if (b) {
+                        if (mEthManager != null && ethernetStart != null)
+                            try {
+                                ethernetStart.invoke(mEthManager);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
+                    }
+                } catch (SecurityException e) {
+                    Toast.makeText(MainActivity.this, "请进行系统签名", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
         });
     }
 
+    @SuppressLint("WrongConstant")
     private void initMethod(){
+        mEthManager = (EthernetManager) getSystemService("ethernet");
         try {
             ethernetStart = mEthManager.getClass().getMethod("start",getParameterTypes(mEthManager.getClass(),"start"));
             ethernetStop = mEthManager.getClass().getMethod("stop",getParameterTypes(mEthManager.getClass(),"stop"));
@@ -276,20 +285,25 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                 Log.e(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
                 Log.e(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
                 break;
-            case R.id.muteinstall: { //静默安装
+            case R.id.setEthernetIP://设置以太网静态IP
+                Intent intent = new Intent(MainActivity.this, SetEthernetIPActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.setWifiIP://直接查看另外一个demo
+
+                break;
+            case R.id.muteinstall:  //静默安装，需要系统签名
                 File f = new File(Environment.getExternalStorageDirectory().getPath() + "/wnys.apk"); //请保证这个路径有这个app文件
                 if (f.exists()) {
                     String command = "pm install -r " + f.toString() + "\n";
                     SilentInstall.executeCmd(command);
                 }
-            }
-            break;
-            case R.id.uninstall: { //卸载程序
+                break;
+            case R.id.uninstall:  //卸载程序
                 String unInstallpackage = "com.snda.wifilocating"; //需要卸载程序的包名，我卸载了WIFI万能钥匙
                 String command = "pm uninstall " + unInstallpackage + "\n";
                 SilentInstall.executeCmd(command);
-            }
-            break;
+                break;
             case R.id.finish:
                 finish();
                 break;
