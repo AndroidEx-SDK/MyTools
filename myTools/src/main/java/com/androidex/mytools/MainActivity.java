@@ -282,15 +282,15 @@ public class MainActivity extends AndroidExActivityBase implements View.OnClickL
                 builder4.create().show();
                 break;
             case R.id.getUUID:
-                Log.e(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
-                Log.e(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
+                Log.d(TAG, "uuid=" + MyService.getInstance(this).get_uuid());
+                Log.d(TAG, "sdkVersion=" + MyService.getInstance(this).getSdkVersion());
                 break;
             case R.id.setEthernetIP://设置以太网静态IP
                 Intent intent = new Intent(MainActivity.this, SetEthernetIPActivity.class);
                 startActivity(intent);
                 break;
             case R.id.setWifiIP://直接查看另外一个demo
-
+                Log.d(TAG, "请联系作者： liyp@androdiex.cn/dev@androidex.cn");
                 break;
             case R.id.muteinstall:  //静默安装，需要系统签名
                 File f = new File(Environment.getExternalStorageDirectory().getPath() + "/wnys.apk"); //请保证这个路径有这个app文件
