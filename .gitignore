@@ -4,4 +4,3 @@ build
 *.pro
 *.properties
 .gradle/
-myTools/libs/classes.jar
